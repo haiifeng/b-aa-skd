@@ -1,21 +1,18 @@
 import { ReactNode, useMemo } from 'react';
 import { SmartAccountProvider as Provider, useSmartAccount } from '@bitlayer/aa-sdk';
 import { SmartAccountContext } from '@/hooks/smart-account';
-import { useEthereum } from '@particle-network/authkit';
-import { Address, createWalletClient, custom } from 'viem';
+import { useAccount, useWallets } from '@particle-network/connectkit';
 
 function InnerProvider({ children }: { children?: ReactNode }) {
-  const { provider, address, chainInfo: chain } = useEthereum();
+  const { chain } = useAccount();
+  const [primaryWallet] = useWallets();
 
   const walletClient = useMemo(() => {
-    if (!address || !chain || !provider) return undefined;
-
-    return createWalletClient({
-      account: address as Address,
-      chain,
-      transport: custom(provider),
-    });
-  }, [chain, provider, address]);
+    if (!primaryWallet) {
+      return undefined;
+    }
+    return primaryWallet.getWalletClient();
+  }, [primaryWallet]);
 
   const { client, eoa } = useSmartAccount({
     chain,

@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Field, FieldList } from '@/components/ui/field';
 import { useSmartAccount } from '@/hooks/smart-account';
 import { buildExplorerAddressUrl, cn } from '@/lib/utils';
-import { useEthereum } from '@particle-network/authkit';
+import { useAccount } from '@particle-network/connectkit';
 
 const AddressLink = ({ chain, address = '' }: { chain: Chain; address?: string }) => {
   const { copied, copy, reset } = useCopy(address);
@@ -43,7 +43,7 @@ const AddressLink = ({ chain, address = '' }: { chain: Chain; address?: string }
 };
 
 export function AccountCard() {
-  const { chainInfo: chain } = useEthereum();
+  const { chain } = useAccount();
   const { client, eoa } = useSmartAccount();
 
   const account = client?.account;

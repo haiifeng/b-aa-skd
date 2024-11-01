@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useConnect, useEthereum } from '@particle-network/authkit';
+import {
+  useAccount,
+  useSwitchChain,
+  useDisconnect,
+  ConnectButton,
+} from '@particle-network/connectkit';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import {
@@ -10,28 +15,19 @@ import {
   SelectItem,
 } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
-import { btr, btrTestnet } from 'viem/chains';
+import { btrTestnet } from 'viem/chains';
 import { BitlayerIcon } from './icons/bitlayer';
 
 export function WalletConnector() {
-  const chains = [btr, btrTestnet];
+  const chains = [btrTestnet];
   const [selectedChainId, setSelectedChainId] = useState<string>(btrTestnet.id.toString());
-  const { connect, disconnect, connected } = useConnect();
-  const {
-    address, // EVM public address
-    chainId, // Current chain
-    switchChain,
-  } = useEthereum();
-
-  const handleLogin = async () => {
-    if (!connected) {
-      await connect({});
-    }
-  };
+  const { disconnect } = useDisconnect();
+  const { chainId, address } = useAccount();
+  const { switchChain } = useSwitchChain();
 
   // Logout user
   const handleLogout = async () => {
-    await disconnect();
+    disconnect();
   };
 
   const handleSelectChain = (value: string) => {
@@ -41,19 +37,19 @@ export function WalletConnector() {
     if (chainId === expectedChainId) {
       return;
     }
-    switchChain(expectedChainId);
+    switchChain({ chainId: expectedChainId });
   };
 
   useEffect(() => {
     if (chainId !== parseInt(selectedChainId)) {
-      switchChain(parseInt(selectedChainId));
+      switchChain({ chainId: parseInt(selectedChainId) });
     }
   }, [chainId, selectedChainId, switchChain]);
 
   const connectSection = () => {
     return (
       <div className="flex gap-2 items-center">
-        <Button onClick={handleLogin}>Login</Button>
+        <ConnectButton />
       </div>
     );
   };

@@ -1,1 +1,1 @@
-# Bitlayer AA Demo with Particle Authkit
+# Bitlayer AA Demo with Particle Connect
