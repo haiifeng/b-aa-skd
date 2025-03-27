@@ -21,6 +21,6 @@ export const config = createConfig({
     [btrTestnet.id]: http(),
   },
   ssr: false,
-  multiInjectedProviderDiscovery: false,
+  // multiInjectedProviderDiscovery: false,
   connectors: [particleConnector],
 });
