@@ -6,6 +6,9 @@
   "scripts": {
     "build": "turbo run build",
     "build:wagmi": "turbo run build --filter=example-with-wagmi",
+    "build:particle": "turbo run build --filter=example-with-particle",
+    "build:particle-wagmi": "turbo run build --filter=example-with-particle-wagmi",
+    "build:": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint"
   },
