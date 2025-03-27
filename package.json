@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "turbo run build",
+    "build:wagmi": "turbo run build --filter=example-with-wagmi",
     "dev": "turbo run dev",
     "lint": "turbo run lint"
   },
